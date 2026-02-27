@@ -1,0 +1,306 @@
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --panel: #f8f8f8;
+    --border: #291f1f;
+    --accent: #000000;
+    --accent2: #000000;
+    --text: #000000;
+    --dim: #000000;
+    --glow: 0 0 20px rgba(82, 79, 79, 0.849);
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'San serif', monospace;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+  }
+
+  .title-block {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .title-block h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    letter-spacing: 4px;
+    animation: flicker 4s infinite;
+  }
+
+  .title-block p {
+    font-size: 0.72rem;
+    color: var(--dim);
+    letter-spacing: 3px;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--accent);
+    font-family: 'San serif', monospace;
+    font-size: 1rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    letter-spacing: 2px;
+  }
+
+  input:focus {
+    border-color: var(--accent);
+    box-shadow: var(--glow);
+  }
+
+  /* Shift selector */
+  .shift-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .shift-row label {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .shift-btns {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .shift-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    width: 34px; height: 34px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .shift-btn:hover { background: rgba(0,255,225,0.1); border-color: var(--accent); }
+
+  #shift-display {
+    font-size: 1.4rem;
+    color: var(--accent);
+    min-width: 36px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0,255,225,0.6);
+  }
+
+  /* Mode toggle */
+  .mode-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .mode-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .mode-btn.active {
+    background: rgba(0,255,225,0.1);
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(0,255,225,0.5);
+  }
+
+  /* Cipher preview */
+  .cipher-preview {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    min-height: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cipher-preview .preview-label {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .cipher-preview .cipher-text {
+    color: var(--accent2);
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(255,60,172,0.5);
+    word-break: break-all;
+    min-height: 1.2em;
+  }
+
+  .login-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    padding: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    opacity: 0.1;
+  }
+
+  .login-btn:hover::before { transform: translateX(0); }
+  .login-btn:hover { box-shadow: var(--glow); }
+
+  /* Message */
+  .message {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-align: center;
+    display: none;
+  }
+
+  .message.success {
+    background: rgba(0,255,100,0.1);
+    border: 1px solid rgba(12, 12, 12, 0.3);
+    color: #020202;
+    display: block;
+  }
+
+  .message.error {
+    background: rgba(255,60,60,0.1);
+    border: 1px solid rgba(255,60,60,0.3);
+    color: #ff4444;
+    display: block;
+  }
+
+  /* Alphabet strip */
+  .alpha-strip {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: var(--dim);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .alpha-strip span { transition: color 0.3s; }
+  .alpha-strip span.highlighted { color: var(--accent); }
+
+  /* Registered users info */
+  .info-box {
+    margin-top: 20px;
+    padding: 10px 16px;
+    border: 1px dashed var(--border);
+    border-radius: 2px;
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
+  .info-box span { color: var(--accent2); }
+
+  /* Eye toggle */
+  .pw-wrapper {
+    position: relative;
+  }
+  .pw-wrapper input { padding-right: 44px; }
+  .eye-btn {
+    position: absolute;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dim);
+    font-size: 1rem;
+    transition: color 0.2s;
+  }
+  .eye-btn:hover { color: var(--accent); }
