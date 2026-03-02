@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caesar Cipher Login</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+  <div class="title-block">
+    <h1>⟨ CIPHER ⟩</h1>
+    <p>Secure Authentication System</p>
+  </div>
+
+  <div class="card">
+
+    <!-- Tab: Login / Register -->
+    <div class="tab-toggle">
+      <button class="tab-btn active" id="tab-login"    onclick="setTab('login')">Login</button>
+      <button class="tab-btn"        id="tab-register" onclick="setTab('register')">Register</button>
+    </div>
+
+    <!-- Mode toggle (encrypt / decrypt) -->
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-encrypt" onclick="setMode('encrypt')">▲ Encrypt (+shift)</button>
+      <button class="mode-btn"        id="btn-decrypt" onclick="setMode('decrypt')">▼ Decrypt (-shift)</button>
+    </div>
+
+    <!-- Username -->
+    <div class="field">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="enter username" autocomplete="off" />
+    </div>
+
+    <!-- Password -->
+    <div class="field">
+      <label>Password (plain — cipher applied automatically)</label>
+      <div class="pw-wrapper">
+        <input type="password" id="password" placeholder="enter password"
+               autocomplete="off" oninput="updatePreview()" />
+        <button class="eye-btn" onclick="toggleEye()">👁</button>
+      </div>
+    </div>
+
+    <!-- Shift selector -->
+    <div class="shift-row">
+      <label>Shift</label>
+      <div class="shift-btns">
+        <button class="shift-btn" onclick="changeShift(-1)">−</button>
+        <span id="shift-display">6</span>
+        <button class="shift-btn" onclick="changeShift(1)">+</button>
+      </div>
+    </div>
+
+    <!-- Live cipher preview -->
+    <div class="cipher-preview">
+      <span class="preview-label">Ciphered preview</span>
+      <span class="cipher-text" id="cipher-output">_</span>
+    </div>
+
+    <!-- Action button -->
+    <button class="login-btn" id="action-btn" onclick="doAction()">ACCESS SYSTEM</button>
+
+    <!-- Spinner -->
+    <div class="spinner" id="spinner" style="display:none">
+      <span class="spin-dot"></span><span class="spin-dot"></span><span class="spin-dot"></span>
+    </div>
+
+    <!-- Message -->
+    <div class="message" id="message"></div>
+
+    <!-- Alphabet visualization -->
+    <div class="alpha-strip" id="alpha-strip"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
