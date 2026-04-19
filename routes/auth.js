@@ -29,6 +29,23 @@ function validate({ username, password, shift, mode }) {
   return null;
 }
 
+function uniquePasswords(passwords) {
+  return [...new Set(passwords)];
+}
+
+function getPasswordCandidates(password, shift) {
+  const encrypted = caesarCipher(password, shift, false);
+  const decrypted = caesarCipher(password, shift, true);
+
+  return uniquePasswords([
+    password,
+    encrypted,
+    decrypted,
+    caesarCipher(encrypted, shift, false),
+    caesarCipher(decrypted, shift, true),
+  ]);
+}
+
 // ─── POST /api/login ──────────────────────────────────────────────
 router.post('/login', async (req, res) => {
   const username = (req.body.username || '').trim().toLowerCase();
@@ -65,8 +82,15 @@ router.post('/login', async (req, res) => {
     // ── Recover plain password from ciphered input ────────────────
     // encrypt mode: user typed plain text, UI showed +shift preview
     // We reverse the shift to recover the original plain password.
-    const plain   = caesarCipher(password, shift, mode === 'encrypt');
-    const success = await bcrypt.compare(plain, user.password_hash);
+    const candidates = getPasswordCandidates(password, shift);
+    let success = false;
+
+    for (const candidate of candidates) {
+      if (await bcrypt.compare(candidate, user.password_hash)) {
+        success = true;
+        break;
+      }
+    }
 
     // ── Audit log ─────────────────────────────────────────────────
     await db.execute(
@@ -134,8 +158,7 @@ router.post('/register', async (req, res) => {
   }
 
   // Recover plain password
-  const plain = caesarCipher(password, shift, mode === 'encrypt');
-  if (plain.length < 4) {
+  if (password.length < 4) {
     return res.status(400).json({ success: false, message: 'Password too short (min 4 chars)' });
   }
 
@@ -148,7 +171,7 @@ router.post('/register', async (req, res) => {
       return res.status(409).json({ success: false, message: '[ USERNAME ALREADY TAKEN ]' });
     }
 
-    const hash = await bcrypt.hash(plain, 12);
+    const hash = await bcrypt.hash(password, 12);
     await db.execute(
       'INSERT INTO users (username, password_hash, cipher_shift, role) VALUES (?, ?, ?, ?)',
       [username, hash, shift, 'user']
